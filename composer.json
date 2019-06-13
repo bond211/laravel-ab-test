@@ -1,0 +1,30 @@
+{
+    "name": "bond211/laravel-ab-test",
+    "version": "0.1.0",
+    "description": "Laravel A/B test",
+    "require": {
+        "php" : "^7.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Bondar",
+            "email": "alexander@bondar.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bond211\\ABTest\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Bond211\\ABTest\\ABTestServiceProvider"
+            ],
+            "aliases": {
+                "ABTest": "Bond211\\ABTest\\Facades\\ABTest"
+            }
+        }
+    }
+}
