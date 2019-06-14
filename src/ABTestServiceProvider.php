@@ -6,4 +6,8 @@ use Illuminate\Support\ServiceProvider;
 
 class ABTestServiceProvider extends ServiceProvider
 {
+    public function register()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+    }
 }

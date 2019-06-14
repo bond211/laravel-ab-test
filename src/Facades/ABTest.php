@@ -2,109 +2,59 @@
 
 namespace Bond211\ABTest\Facades;
 
+use Bond211\ABTest\ABTestHandler;
 use Bond211\ABTest\VariantSelectionFailedException;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Facade;
 
 class ABTest extends Facade
 {
-    const SESSION_STORAGE_PREFIX = 'ab-test';
-
-    public static function all()
-    {
-        return session(self::SESSION_STORAGE_PREFIX);
-    }
-
-    public static function get(string $name)
-    {
-        $key = self::toSessionKeyName($name);
-
-        return session($key, null);
-    }
-
-    public static function set(string $name, string $value): void
-    {
-        $key = self::toSessionKeyName($name);
-
-        session([$key => $value]);
-    }
-
-    public static function finish(string $name): void
-    {
-        $key = self::toSessionKeyName($name);
-
-        session([$key => null]);
-    }
-
-
     /**
      * @param string $name
      * @param array $variants
      * @param null $weights
-     * @return string
-     * @throws VariantSelectionFailedException
+     * @return string|null
      */
-    public static function start(string $name, array $variants, $weights = null): string
+    public static function start(string $name, array $variants, $weights = null)
     {
-        $value = self::get($name);
-
-        if ($value != null) {
-            return $value;
-        }
-
-        if (Arr::isAssoc($variants)) {
-            $weights = array_values($variants);
-            $variants = array_keys($variants);
-        }
-
-        $weights = self::validateOrGenerateWeights($weights, $variants);
-        $weightsSum = array_sum($weights);
-
         try {
-            $num = random_int(1, $weightsSum);
-        } catch (\Exception $e) {
-            throw new VariantSelectionFailedException($e->getMessage(), 0, $e);
+            return ABTestHandler::startTest($name, $variants, $weights);
+        } catch (VariantSelectionFailedException $e) {
+            return null;
         }
-
-        $weightsTmpSum = 0;
-        foreach ($weights as $idx => $weight) {
-            $weightsTmpSum += $weight;
-
-            if ($weightsTmpSum < $num) {
-                continue;
-            }
-
-            $value = $variants[$idx];
-            self::set($name, $value);
-
-            return $value;
-        }
-
-        throw new VariantSelectionFailedException();
     }
 
-    private static function validateOrGenerateWeights($weights, $variants)
+    public static function all()
     {
-        $variantsCount = count($variants);
-
-        if ($weights !== null) {
-            if (count($weights) !== $variantsCount) {
-                throw new \InvalidArgumentException('Weights and variants count must match.');
-            }
-
-            return $weights;
-        }
-
-        return self::generateWeights($variantsCount);
+        return ABTestHandler::getAllTests();
     }
 
-    private static function generateWeights($count)
+    public static function get(string $name)
     {
-        return array_fill(0, $count, 1);
+        return ABTestHandler::getTestVariant($name);
     }
 
-    private static function toSessionKeyName(string $name): string
+    public static function set(string $name, string $value): void
     {
-        return self::SESSION_STORAGE_PREFIX . '.' . $name;
+        ABTestHandler::setTestVariant($name, $value);
+    }
+
+    public static function finish(string $name): void
+    {
+        ABTestHandler::clearTest($name);
+    }
+
+    public static function end(string $name): void
+    {
+        ABTestHandler::clearTest($name);
+    }
+
+    public static function clear(string $name): void
+    {
+        ABTestHandler::clearTest($name);
+    }
+
+    public static function goal(string $testName, string $goalName): void
+    {
+        ABTestHandler::increaseGoalCount($testName, $goalName);
     }
 }
