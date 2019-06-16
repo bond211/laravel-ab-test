@@ -1,6 +1,6 @@
 {
     "name": "bond211/laravel-ab-test",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "Laravel A/B test",
     "require": {
         "php" : "^7.1"

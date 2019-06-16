@@ -12,7 +12,7 @@
         </tr>
         </thead>
         @foreach($stats as $testIdx => $test)
-            @foreach($test->variants as $variantIdx => $variant)
+            @foreach(\Bond211\ABTest\Helper::filterVariantsWithGoals($test->variants) as $variantIdx => $variant)
                 @foreach($variant->goals as $goalIdx => $goal)
                     @include('ab-tests::_summary-row')
                 @endforeach
