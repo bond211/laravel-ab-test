@@ -40,4 +40,14 @@ class ABTest extends Model
             })
             ->sum();
     }
+
+    public function getGoalsCountSumAttribute()
+    {
+        return $this
+            ->variants()->get()
+            ->map(function ($el) {
+                return $el->goals_count_sum;
+            })
+            ->sum();
+    }
 }

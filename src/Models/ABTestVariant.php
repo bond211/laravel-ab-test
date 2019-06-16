@@ -26,4 +26,14 @@ class ABTestVariant extends Model
     {
         return $this->goals()->count();
     }
+
+    public function getGoalsCountSumAttribute()
+    {
+        return $this
+            ->goals()->get()
+            ->map(function ($el) {
+                return $el->count;
+            })
+            ->sum();
+    }
 }

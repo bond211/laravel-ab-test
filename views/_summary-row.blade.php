@@ -2,6 +2,11 @@
     <td>
         @if($variantIdx === 0 && $goalIdx === 0)
             <strong>{{ $test->name }}</strong>
+            <div class="num-info">
+                {{ $test->variants_count_sum }}
+                →
+                {{ $test->goals_count_sum }}
+            </div>
         @endif
     </td>
     <td class="{{ $goalIdx === 0 ? 'border-top' : '' }}">
@@ -11,7 +16,9 @@
     </td>
     <td class="text-right {{ $goalIdx === 0 ? 'border-top' : '' }}">
         @if($goalIdx === 0)
-        {{ number_format($variant->count / $test->variants_count_sum * 100, 1) }}&thinsp;%
+        {{
+            number_format($variant->count / $test->variants_count_sum * 100, 1)
+        }}&thinsp;<small class="text-muted">%</small>
         <div class="num-info">{{ $variant->count }}</div>
         @endif
     </td>
@@ -19,7 +26,9 @@
         {{ $goal->name }}
     </td>
     <td class="border-top text-right">
-        {{ number_format($goal->count / $variant->count * 100, 1) }}&thinsp;%
+        {{
+            number_format($goal->count / $variant->count * 100, 1)
+        }}&thinsp;<small class="text-muted">%</small>
         <div class="num-info">{{ $goal->count }}</div>
     </td>
 </tr>

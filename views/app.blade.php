@@ -13,6 +13,12 @@
         body {
             margin-top: 2rem;
             margin-bottom: 4rem;
+            background: #f5f2f0;
+            color: #564b43;
+        }
+
+        .table {
+            color: #231b15;
         }
 
         .num-info {

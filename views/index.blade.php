@@ -3,11 +3,11 @@
 @section('title', 'Summary')
 
 @section('content')
-    <table class="table table-borderless table-hover w-auto shadow">
+    <table class="table table-borderless table-hover w-auto bg-white shadow rounded">
         <thead>
         <tr>
             <th>Test</th>
-            <th colspan="2">Variant</th>
+            <th colspan="2">Variants</th>
             <th>Goals</th>
         </tr>
         </thead>
@@ -18,9 +18,9 @@
                 @endforeach
             @endforeach
         @endforeach
-        <tfoot class="border-top">
+        <tfoot class="border-top tfoot-light text-muted">
         <tr>
-            <td>{{ $stats->count() }} tests</td>
+            <td>{{ $stats->count() }} test{{ $stats->count() !== 1 ? 's' : '' }}</td>
         </tr>
         </tfoot>
     </table>
