@@ -11,4 +11,19 @@ class ABTestVariant extends Model
         'a_b_test_id',
     ];
     public $timestamps = false;
+
+    public function test()
+    {
+        return $this->belongsTo(ABTest::class);
+    }
+
+    public function goals()
+    {
+        return $this->hasMany(ABTestGoal::class)->orderBy('name');
+    }
+
+    public function getGoalsCountAttribute()
+    {
+        return $this->goals()->count();
+    }
 }

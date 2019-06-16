@@ -11,4 +11,9 @@ class ABTestGoal extends Model
         'a_b_test_variant_id',
     ];
     public $timestamps = false;
+
+    public function variant()
+    {
+        return $this->belongsTo(ABTestVariant::class);
+    }
 }
