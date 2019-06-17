@@ -9,13 +9,20 @@
             <th>Test</th>
             <th colspan="2">Variants</th>
             <th>Goals</th>
+            <th title="Conversion Rate">Conversion</th>
         </tr>
         </thead>
         @foreach($stats as $testIdx => $test)
-            @foreach(\Bond211\ABTest\Helper::filterVariantsWithGoals($test->variants) as $variantIdx => $variant)
+            @foreach($test->variants as $variantIdx => $variant)
+
+                @if(!$variant->goals->count())
+                    @include('ab-tests::_summary-row', ['goalIdx' => 0, 'goal' => null])
+                @endif
+
                 @foreach($variant->goals as $goalIdx => $goal)
                     @include('ab-tests::_summary-row')
                 @endforeach
+
             @endforeach
         @endforeach
         <tfoot class="border-top tfoot-light text-muted">

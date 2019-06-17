@@ -23,12 +23,21 @@
         @endif
     </td>
     <td class="border-top">
-        {{ $goal->name }}
+        @if($goal === null)
+            <span class="text-muted">no goals yet</span>
+        @else
+            {{ $goal->name }}
+        @endif
     </td>
     <td class="border-top text-right">
-        {{
-            number_format($goal->count / $variant->count * 100, 1)
-        }}&thinsp;<small class="text-muted">%</small>
-        <div class="num-info">{{ $goal->count }}</div>
+        @if($goal === null)
+            <span class="text-muted">—</span>
+        @else
+            {{
+                number_format($goal->count / $variant->count * 100, 1)
+            }}&thinsp;
+            <small class="text-muted">%</small>
+            <div class="num-info">{{ $goal->count }}</div>
+        @endif
     </td>
 </tr>
