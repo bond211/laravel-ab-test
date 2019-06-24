@@ -10,6 +10,7 @@
             <th colspan="2">Variants</th>
             <th>Goals</th>
             <th title="Conversion Rate">Conversion</th>
+            <th>Uplift</th>
         </tr>
         </thead>
         @foreach($stats as $testIdx => $test)
