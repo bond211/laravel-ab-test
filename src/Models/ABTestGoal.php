@@ -14,6 +14,6 @@ class ABTestGoal extends Model
 
     public function variant()
     {
-        return $this->belongsTo(ABTestVariant::class);
+        return $this->belongsTo(ABTestVariant::class, 'a_b_test_variant_id');
     }
 }
